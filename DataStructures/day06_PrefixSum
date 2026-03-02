@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+long arrayManipulation(int n, vector<vector<int>> &queries) {
+    
+    // Difference array (1-indexed)
+    vector<long long> arr(n + 2, 0);
+
+    // Apply all queries
+    for (int i = 0; i < queries.size(); i++) {
+        int a = queries[i][0];
+        int b = queries[i][1];
+        long long k = queries[i][2];
+
+        arr[a] += k;
+        arr[b + 1] -= k;
+    }
+
+    // Prefix sum + find maximum
+    long long maxValue = 0;
+    long long currentSum = 0;
+
+    for (int i = 1; i <= n; i++) {
+        currentSum += arr[i];
+        maxValue = max(maxValue, currentSum);
+    }
+
+    return maxValue;
+}
+
+int main() {
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<int>> queries(m, vector<int>(3));
+
+    for (int i = 0; i < m; i++) {
+        cin >> queries[i][0] >> queries[i][1] >> queries[i][2];
+    }
+
+    long long result = arrayManipulation(n, queries);
+
+    cout << result << endl;
+
+    return 0;
+}
